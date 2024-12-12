@@ -5,15 +5,14 @@ import os
 load_dotenv()
 
 class Database:
-    client: AsyncIOMotorClient = None
+    client = None
     
-async def get_database() -> AsyncIOMotorClient:
+async def get_database():
     return Database.client[os.getenv("DB_NAME")]
 
 async def connect_to_mongo():
     print("Connecting to MongoDB...")
     client = AsyncIOMotorClient(os.getenv("MONGODB_URL"))
-    print(client)
     Database.client = client
     print("Connected to MongoDB")
     
