@@ -1,105 +1,169 @@
-# FastAPI Boilerplate 🚀
+# FastAPI MongoDB Starter 🚀
 
-A modern, fast (high-performance) web framework for building APIs with Python 3.7+.
+A modern, production-ready FastAPI starter template with MongoDB integration.
+
+## 🌟 Features
+
+- **FastAPI** - Modern, fast web framework for building APIs
+- **MongoDB** with Motor - Async MongoDB driver
+- **JWT Authentication** - Secure authentication system
+- **Pydantic Models** - Data validation using Pydantic
+- **Dependency Injection** - Clean and testable code
+- **CORS Middleware** - Cross-Origin Resource Sharing
+- **Environment Variables** - Configuration using environment variables
+- **Pagination** - Built-in pagination support
+- **Error Handling** - Comprehensive error handling
+- **Security Utilities** - Password hashing, token generation
+- **API Documentation** - Automatic API documentation with Swagger/ReDoc
 
 ## 🛠️ Prerequisites
 
-- Python 3.7 or higher
-- MongoDB installed locally or a remote MongoDB instance
+- Python 3.7+
+- MongoDB
 - Git (optional)
 
 ## 🚀 Getting Started
 
-### 1. Get the Code
+### 1. Clone the Repository
 
 ```bash
-# Clone the repository
 git clone <repository-url>
-cd fastapi-boilerplate
+cd fastapi-mongodb-starter
 ```
 
-### 2. Set Up Virtual Environment 🔧
+### 2. Set Up Virtual Environment
 
 ```bash
 # Create virtual environment
-python3 -m venv venv
+python -m venv venv
 
 # Activate virtual environment
 # On macOS/Linux:
 source venv/bin/activate
-
 # On Windows:
-venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
-### 3. Install Dependencies 📦
+### 3. Install Dependencies
 
 ```bash
-# Install all dependencies at once
 pip install -r requirements.txt
-
-# Or install packages individually
-pip install fastapi==0.104.1 uvicorn==0.24.0 motor==3.3.1 pymongo==4.5.0 \
-    pydantic==2.5.2 python-jose==3.3.0 "passlib[bcrypt]"==1.7.4 \
-    python-multipart==0.0.6 python-dotenv==1.0.0 email-validator==2.1.0.post1
 ```
 
-### 4. Configure Environment ⚙️
+### 4. Configure Environment Variables
 
 Create a `.env` file in the root directory:
 
-```bash
-echo "MONGODB_URL=mongodb://localhost:27017
-DB_NAME=fastapi_db
-SECRET_KEY=your-secret-key-here
-ALGORITHM=HS256" > .env
+```env
+# App Settings
+APP_NAME="FastAPI MongoDB Starter"
+DEBUG=True
+
+# MongoDB Settings
+MONGODB_URL="mongodb://localhost:27017"
+DB_NAME="fastapi_db"
+
+# JWT Settings
+SECRET_KEY="your-secret-key-here"
+ALGORITHM="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# CORS Settings
+CORS_ORIGINS=["*"]
+CORS_CREDENTIALS=true
 ```
 
-### 5. Launch the Application 🎯
+### 5. Run the Application
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
+## 📚 API Documentation
+
+Once the application is running, you can access:
+
+- API Documentation (Swagger UI): <http://localhost:8000/docs>
+- Alternative Documentation (ReDoc): <http://localhost:8000/redoc>
+- API Base URL: <http://localhost:8000/api>
+
 ## 🔗 API Endpoints
 
-### Users 👥
+### Authentication
 
-- `POST /api/users/` - Create new user
-- `GET /api/users/` - List all users
-- `GET /api/users/{user_id}` - Get specific user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+
+### Users
+
+- `GET /api/users/` - List users (paginated)
+- `GET /api/users/me` - Get current user
+- `GET /api/users/{user_id}` - Get user by ID
 - `PUT /api/users/{user_id}` - Update user
 - `DELETE /api/users/{user_id}` - Delete user
 
-### Orders 📦
+### Orders
 
-- `POST /api/orders/` - Create new order
-- `GET /api/orders/` - List all orders
+- `GET /api/orders/` - List orders (paginated)
 - `GET /api/orders/{order_id}` - Get specific order
+- `POST /api/orders/` - Create new order
 - `PUT /api/orders/{order_id}` - Update order
 - `DELETE /api/orders/{order_id}` - Delete order
 
-## 🛠️ Development Commands
+## 📁 Project Structure
+
+```json
+fastapi-mongodb-starter/
+├── app/
+│   ├── core/
+│   │   ├── config.py      # Configuration settings
+│   │   ├── security.py    # Security utilities
+│   │   └── deps.py        # Dependencies
+│   ├── database/
+│   │   └── mongodb.py     # MongoDB connection
+│   ├── models/
+│   │   ├── user.py        # User models
+│   │   └── token.py       # Token models
+│   │   └── order.py       # Order models
+│   ├── routes/
+│   │   ├── api.py         # API router
+│   │   └── endpoints/     # API endpoints
+│   ├── utils/
+│   │   └── helper.py     # General utilities
+│   └── main.py           # Application entry point
+├── .env                  # Environment variables
+├── .env.example         # Example environment variables
+├── requirements.txt     # Project dependencies
+└── README.md           # Project documentation
+```
+
+## 🔧 Development Commands
 
 ```bash
 # Install new package
 pip install package_name
 
-# Update requirements.txt
+# Update requirements
 pip freeze > requirements.txt
 
-# Deactivate virtual environment
-deactivate
+# Run tests (when implemented)
+pytest
+
+# Format code
+black app/
+
+# Check types
+mypy app/
 ```
 
-## 📚 Documentation
+## 🤝 Contributing
 
-Access your API and its documentation at:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- API: http://localhost:8000
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+## 📝 License
 
-## 💡 Need Help?
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Check out the [FastAPI documentation](https://fastapi.tiangolo.com/) for detailed information about the framework.
+## 💡 Support
+
+If you have any questions or need help, please open an issue in the repository.
