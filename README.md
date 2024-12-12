@@ -112,7 +112,7 @@ Once the application is running, you can access:
 
 ## 📁 Project Structure
 
-```json
+```bash
 fastapi-mongodb-starter/
 ├── app/
 │   ├── core/
