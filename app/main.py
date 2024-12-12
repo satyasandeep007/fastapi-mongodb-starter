@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import user, order
+import logging
+from app.routes.index import router as v1_router
 from app.database import connect_to_mongo, close_mongo_connection
 
 @asynccontextmanager
@@ -23,30 +24,28 @@ Press CTRL+C to stop the server
     # Shutdown
     await close_mongo_connection()
 
-app = FastAPI(
-    title="FastAPI MongoDB Boilerplate",
-    lifespan=lifespan
-)
+def init_routers(app: FastAPI):
+    app.include_router(v1_router, prefix="/api")
+    logging.info("Routers initialized")
 
-# Configure CORS
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "*"
-]
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="FastAPI MongoDB Boilerplate",
+        lifespan=lifespan
+    )
+    
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    
+    init_routers(app=app)
+    return app
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Include routers
-app.include_router(user.router, prefix="/api/users", tags=["users"])
-app.include_router(order.router, prefix="/api/orders", tags=["orders"])
+app = create_app()
 
 @app.get("/")
 async def root():
