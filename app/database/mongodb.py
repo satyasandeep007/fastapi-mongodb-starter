@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from app.core.config import settings
 import logging
 
+
 class MongoDB:
     client = None
     db = None
@@ -29,6 +30,7 @@ class MongoDB:
     @classmethod
     def get_db(cls):
         return cls.db
+
 
 async def get_database():
     return MongoDB.get_db()

@@ -10,6 +10,7 @@ from app.routes.api import api_router
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
@@ -20,11 +21,12 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down...")
     await MongoDB.close_database_connection()
 
+
 def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.APP_NAME,
         openapi_url=f"{settings.API_V1_STR}/openapi.json",
-        lifespan=lifespan
+        lifespan=lifespan,
     )
 
     # Set CORS middleware
@@ -43,16 +45,11 @@ def create_app() -> FastAPI:
     async def root():
         return {
             "message": f"Welcome to {settings.APP_NAME}",
-            "docs": {
-                "Swagger UI": "/docs",
-                "ReDoc": "/redoc"
-            },
-            "api": {
-                "base_url": settings.API_V1_STR,
-                "version": "v1"
-            }
+            "docs": {"Swagger UI": "/docs", "ReDoc": "/redoc"},
+            "api": {"base_url": settings.API_V1_STR, "version": "v1"},
         }
 
     return app
+
 
 app = create_app()
