@@ -92,7 +92,6 @@ Once the application is running, you can access:
 ### Authentication
 
 - `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
 
 ### Users
 
