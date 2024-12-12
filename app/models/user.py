@@ -1,46 +1,37 @@
 from datetime import datetime
-from typing import Optional, Annotated
-from pydantic import BaseModel, EmailStr, Field, BeforeValidator
-from bson import ObjectId
+from typing import Optional
+from pydantic import EmailStr, Field
+from app.models.base import MongoBaseModel, PyObjectId
 
-# Custom type for ObjectId fields
-PyObjectId = Annotated[str, BeforeValidator(str)]
-
-class UserModel(BaseModel):
-    id: PyObjectId = Field(default_factory=lambda: str(ObjectId()), alias="_id")
+class UserBase(MongoBaseModel):
     email: EmailStr
     username: str
-    hashed_password: str
     is_active: bool = True
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    is_superuser: bool = False
 
-    class Config:
-        populate_by_name = True
-        json_schema_extra = {
-            "example": {
-                "email": "user@example.com",
-                "username": "johndoe",
-                "hashed_password": "hashedpass123",
-                "is_active": True
-            }
-        }
-
-class UserCreate(BaseModel):
+class UserCreate(MongoBaseModel):
     email: EmailStr
     username: str
     password: str
 
-class UserUpdate(BaseModel):
+class UserUpdate(MongoBaseModel):
     email: Optional[EmailStr] = None
     username: Optional[str] = None
     password: Optional[str] = None
+    is_active: Optional[bool] = None
 
-class UserResponse(BaseModel):
-    id: PyObjectId = Field(alias="_id")
-    email: EmailStr
-    username: str
-    is_active: bool
-    created_at: Optional[datetime] = None
+class UserInDB(UserBase):
+    hashed_password: str
+
+class UserResponse(UserBase):
+    pass
 
     class Config:
-        populate_by_name = True
+        json_schema_extra = {
+            "example": {
+                "email": "user@example.com",
+                "username": "johndoe",
+                "is_active": True,
+                "created_at": datetime.utcnow()
+            }
+        }
