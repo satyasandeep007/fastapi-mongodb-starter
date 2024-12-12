@@ -27,7 +27,7 @@ A modern, production-ready FastAPI starter template with MongoDB integration.
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/satyasandeep007/fastapi-mongodb-starter
 cd fastapi-mongodb-starter
 ```
 
